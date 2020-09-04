@@ -1,55 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { Paper, Grid, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
-const useStyles = makeStyles(
-    (theme) => ({
-        root: {
-            minWidth: 275,
-        },
-        bullet: {
-            display: 'inline-block',
-            margin: '0 2px',
-            transform: 'scale(0.8)',
-        },
-        title: {
-            fontSize: 14,
-        },
-        pos: {
-            marginBottom: 12,
-        },
-    })
-);
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+	},
+	paper: {
+		height: 140,
+		width: 100,
+	},
+	control: {
+		padding: theme.spacing(2),
+	},
+}));
 
-export default function Body() {
-    const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
+function Body() {
+	const [spacing, setSpacing] = useState(2);
+	const classes = useStyles();
 
-    return (
-        <Card className={classes.root} variant="outlined">
-            <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Word of the Day
-        </Typography>
-                <Typography variant="h5" component="h2">
-                    be{bull}nev{bull}o{bull}lent
-        </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                    adjective
-        </Typography>
-                <Typography variant="body2" component="p">
-                    well meaning and kindly.
-          <br />
-                    {'"a benevolent smile"'}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small">Learn More</Button>
-            </CardActions>
-        </Card>
-    );
+	const handleChange = (event) => {
+		setSpacing(Number(event.target.value));
+	};
+
+	return (
+		<Grid container className={classes.root} spacing={2}>
+			<Grid item xs={12}>
+				<Grid container justify='center' spacing={spacing}>
+					{[0, 1, 2].map((value) => (
+						<Grid key={value} item>
+							<Paper className={classes.paper} />
+						</Grid>
+					))}
+				</Grid>
+			</Grid>
+			<Grid item xs={12}>
+				<Paper className={classes.control}>
+					FormLabel
+					<Grid container>
+						<Grid item>
+							<FormLabel>spacing</FormLabel>
+							<RadioGroup
+								name='spacing'
+								aria-label='spacing'
+								value={spacing.toString()}
+								onChange={handleChange}
+								row>
+								{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+									<FormControlLabel
+										key={value}
+										value={value.toString()}
+										control={<Radio />}
+										label={value.toString()}
+									/>
+								))}
+							</RadioGroup>
+						</Grid>
+					</Grid>
+				</Paper>
+			</Grid>
+		</Grid>
+	);
 }
+
+export default Body;
