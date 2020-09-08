@@ -1,29 +1,38 @@
 version: "3"
 
+networks:
+  zonic:
+
 services:
   frontend:
     image: node:13.14
-#    build:
-#      context: ./frontend
+    #    build:
+    #      context: ./frontend
     container_name: client
     working_dir: /app
     stdin_open: true
-    ports:
-      - 8888:3000
     volumes:
       - ./frontend:/app
       # - ./frontend/node_modules
+    ports:
+      - 8888:3000
+    networks:
+      - zonic
     entrypoint: ["npm"] # command would start with this
     command: ["start"] # CAN be overwritten
-    #
-    # In a nutshell:
-    #  `CMD`        => sets default command and/or parameters,
-    #                  which can be overwritten from command line when docker container runs.
-    #   --------------------------------------------------------------------------------------------------
-    #  `ENTRYPOINT` => command and parameters will not be overwritten from command line.
-    #                  Instead, all command line arguments will be added after ENTRYPOINT parameters.
-    #
-    #   Like in above example,
-    #               if you run `docker-compose up -d` =>
-    #               for frontend command executed would be "npm start"
-    #   You could also run one-off command like: "docker-compose run --rm frontend install < SOME PACKAGE FROM NPM >"
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/src
+    ports:
+      - 7777:5000
+    networks:
+      - zonic
+    stdin_open: true
+    restart: always
+    depends_on:
+      - frontend

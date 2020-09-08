@@ -1,0 +1,11 @@
+Flask
+flask-restful
+flask-cors
+pandas
+numpy
+matplotlib
+seaborn
+# torch
+# torchvision
+# tensorflow
+# tensorboardX

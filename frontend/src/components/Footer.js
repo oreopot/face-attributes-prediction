@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import { Link, Toolbar, Typography, AppBar } from '@material-ui/core';
 
 function Copyright() {
 	return (
@@ -18,28 +16,30 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+	},
 	footer: {
-		backgroundColor: 'tomato',
-		// marginTop: theme.spacing(8),
-		padding: theme.spacing(6, 0),
+		top: 'auto',
+		bottom: '0px',
+		background: theme.palette.primary.mainGradient,
 	},
 }));
 
-export default function Footer(props) {
+function Footer(props) {
 	const classes = useStyles();
 	const { description, title } = props;
 
 	return (
-		<footer className={classes.footer}>
-			<Container maxWidth='lg'>
-				<Typography variant='h6' align='center' gutterBottom>
-					{title}
-				</Typography>
-				<Typography variant='subtitle1' align='center' color='textSecondary' component='p'>
-					{description}
-				</Typography>
-				<Copyright />
-			</Container>
-		</footer>
+		<>
+			<AppBar position='fixed' variant='outlined' className={classes.footer}>
+				{/* <Copyright /> */}
+				<Toolbar>
+					<Typography> Bhaumik Mehta </Typography>
+				</Toolbar>
+			</AppBar>
+		</>
 	);
 }
+
+export default Footer;

@@ -5,10 +5,10 @@ import CustomTheme from './theme';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const theme1 = CustomTheme();
+const theme = CustomTheme();
 ReactDOM.render(
 	<React.StrictMode>
-		<ThemeProvider theme={theme1}>
+		<ThemeProvider theme={theme}>
 			<App />
 		</ThemeProvider>
 	</React.StrictMode>,

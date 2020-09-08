@@ -1,0 +1,4 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 111-446-203
+INFO:HELLO WORLD1:welcome to upload`
+INFO:werkzeug:192.168.112.1 - - [08/Sep/2020 07:11:04] "[37mPOST /upload HTTP/1.1[0m" 200 -
