@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
+import { useSpring, animated } from 'react-spring';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

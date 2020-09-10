@@ -8,12 +8,12 @@ services:
     image: node:13.14
     #    build:
     #      context: ./frontend
-    container_name: client
+    container_name: frontend
     working_dir: /app
     stdin_open: true
     volumes:
       - ./frontend:/app
-      # - ./frontend/node_modules
+      - ./frontend/node_modules
     ports:
       - 8888:3000
     networks:
@@ -23,6 +23,8 @@ services:
 
   backend:
     container_name: backend
+    stdin_open: true
+    restart: always
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -32,7 +34,5 @@ services:
       - 7777:5000
     networks:
       - zonic
-    stdin_open: true
-    restart: always
     depends_on:
       - frontend

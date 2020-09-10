@@ -17,7 +17,6 @@ if __name__ == '__main__':
 
 '''
 import os
-from tarfile import filemode
 from flask import Flask, flash, request, redirect, url_for, session
 from flask.json import jsonify
 from werkzeug.debug import console
