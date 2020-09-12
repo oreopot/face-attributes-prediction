@@ -3,5 +3,6 @@
 **__pycache__**
 **node_modules**
 .DS_Store
-backend/upload*
+backend/*upload*
+backend/assets/
 *.log 

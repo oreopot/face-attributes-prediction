@@ -15,7 +15,7 @@ services:
       - ./frontend:/app
       - ./frontend/node_modules
     ports:
-      - 8888:3000
+      - 3000:80
     networks:
       - zonic
     entrypoint: ["npm"] # command would start with this
@@ -36,3 +36,17 @@ services:
       - zonic
     depends_on:
       - frontend
+
+  nginx:
+    image: nginx:1.17.10
+    container_name: reverse_proxy_demo
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+      # - precip-service
+    ports:
+      - 80:80
+    networks:
+      - zonic

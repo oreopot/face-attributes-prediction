@@ -103,8 +103,8 @@ function ImageUpload(props) {
 				baseURL: 'http://localhost:7777',
 			});
 
-			instance
-				.post(`/upload`, form_data, {
+			axios
+				.post(`/api/upload`, form_data, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
