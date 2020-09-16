@@ -40,6 +40,13 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 res50 = resnet50()
 
 app = Flask(__name__)
+# app.config.update(
+#     {
+#         TESTING: True,
+
+#     }
+
+# )
 CORS(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -87,7 +94,10 @@ def loadModelWeights():
         name = k[7:]  # remove `module.`
         new_state_dict[name] = v
 
-    res50.load_state_dict(new_state_dict)
+    return new_state_dict
+
+
+res50.load_state_dict(loadModelWeights())
 
 
 def getTransforms():
@@ -135,12 +145,5 @@ def predict(imagePath=''):
         'not_observed': [str(OUTPUT_CLASSESt[i]) for i in features['absent']],
     }
     pprint(res)
-    return res
     print("=="*52)
-
-
-# loadModelWeights()
-if __name__ == '__main__':
-    loadModelWeights()
-    app.secret_key = os.urandom(24)
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    return res
