@@ -6,9 +6,8 @@ networks:
 services:
   frontend:
     image: node:13.14
-    build:
-      context: ./frontend
-      dockerfile: docker/prod.Dockerfile
+    #    build:
+    #      context: ./frontend
     container_name: frontend
     working_dir: /app
     stdin_open: true
@@ -23,6 +22,7 @@ services:
     command: ["start"] # CAN be overwritten
 
   backend:
+    image: python:3.8.5-buster
     container_name: backend
     stdin_open: true
     restart: always
@@ -31,12 +31,14 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/src
+      - ./backend/torch-cache:/root/.cache
     ports:
       - 7777:5000
     networks:
       - zonic
     depends_on:
       - frontend
+    command: ["gunicorn  -w 8 --threads 4 --reload wsgi:app"]
 
   nginx:
     image: nginx:1.17.10

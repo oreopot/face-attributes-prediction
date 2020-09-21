@@ -1,4 +1,5 @@
 from io import BytesIO
+
 import os
 from PIL.Image import Image
 from flask import Flask, flash, request, redirect, url_for, session
@@ -7,9 +8,9 @@ import numpy as np
 from werkzeug.debug import console
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
-import logging
+
 from collections import OrderedDict
-from models import resnet50
+from .models import resnet50
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -24,32 +25,25 @@ import torchvision.datasets as datasets
 from math import cos, pi
 from pprint import pprint
 
-logging.basicConfig(filename='example.log', filemode='w', level=logging.INFO)
-
-logger = logging.getLogger('HELLO WORLD1')
-
-BASE = os.getcwd()
+BASE = os.path.join(os.getcwd(), 'app')
 ASSET_PATH = os.path.join(BASE, 'assets')
 DEFAULT_WORKERS = 4
 OUTPUT_CLASSES = []
 IMAGE_WIDTH = 178
 IMAGE_HEIGHT = 218
 
-UPLOAD_FOLDER = './user-uploads/'
+UPLOAD_FOLDER_PATH = os.path.join('.', 'user-uploads')
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 res50 = resnet50()
 
 app = Flask(__name__)
-# app.config.update(
-#     {
-#         TESTING: True,
+app.config.update(
+    TESTING=True,
+    DEBUG=True,
+    UPLOAD_FOLDER=UPLOAD_FOLDER_PATH,
+)
 
-#     }
-
-# )
 CORS(app)
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -60,11 +54,11 @@ def index():
 @app.route('/upload', methods=['POST'])
 def fileUpload():
     print(request)
-    # target = os.path.join(UPLOAD_FOLDER, 'images')
-    target = UPLOAD_FOLDER
+    target = os.path.join(UPLOAD_FOLDER_PATH, 'images')
+    target = UPLOAD_FOLDER_PATH
     if not os.path.isdir(target):
-        os.mkdir(target)
-    logger.info("welcome to upload`")
+        os.makedirs(target)
+
     file = request.files['file']
     filename = secure_filename(file.filename)
     destination = "/".join([target, filename])

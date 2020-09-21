@@ -4,5 +4,6 @@
 **node_modules**
 .DS_Store
 backend/*upload*
+backend/torch-cache
 backend/assets/
 *.log 
