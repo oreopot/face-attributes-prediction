@@ -10,4 +10,5 @@ COPY . .
 
 EXPOSE 5000 
 # ENTRYPOINT /bin/bash
-CMD python app.py
+# CMD python app/main.py
+CMD gunicorn --reload wsgi:app --log-level=debug -b 0.0.0.0:5000 --threads 2 -w 2 --timeout=500
