@@ -1,49 +1,34 @@
 from io import BytesIO
 
 import os
-from PIL.Image import Image
-from flask import Flask, flash, request, redirect, url_for, session
-from flask.json import jsonify
 import numpy as np
-from werkzeug.debug import console
+from PIL.Image import Image
+from flask import Flask, flash, request, redirect, url_for, session, jsonify
+# from flask.json import jsonify
 from werkzeug.utils import secure_filename
-from flask_cors import CORS, cross_origin
-
-from collections import OrderedDict
+from flask_cors import CORS
 from .models import resnet50
-import torch
-import torch.nn as nn
-import torch.nn.parallel
-import torch.backends.cudnn as cudnn
-import torch.distributed as dist
-import torch.optim
-import torch.utils.data
-import torch.utils.data.distributed
-import torchvision.transforms as transforms
-import torchvision.datasets as datasets
+from .utils import *
 
-from math import cos, pi
 from pprint import pprint
 
-BASE = os.path.join(os.getcwd(), 'app')
-ASSET_PATH = os.path.join(BASE, 'assets')
-DEFAULT_WORKERS = 4
-OUTPUT_CLASSES = []
-IMAGE_WIDTH = 178
-IMAGE_HEIGHT = 218
 
 UPLOAD_FOLDER_PATH = os.path.join('.', 'user-uploads')
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-res50 = resnet50()
 
 app = Flask(__name__)
 app.config.update(
-    TESTING=True,
-    DEBUG=True,
+    # TESTING=True,
+    # DEBUG=True,
     UPLOAD_FOLDER=UPLOAD_FOLDER_PATH,
 )
 
 CORS(app)
+
+
+res50 = resnet50()
+res50.load_state_dict(getModelWeights())
+res50.eval()
 
 
 @app.route('/')
@@ -51,7 +36,7 @@ def index():
     return jsonify({'data': 'Hello from Docker 👋'})
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/api/upload', methods=['POST'])
 def fileUpload():
     print(request)
     target = os.path.join(UPLOAD_FOLDER_PATH, 'images')
@@ -68,54 +53,9 @@ def fileUpload():
     return response
 
 
-def loadClasses():
-    global OUTPUT_CLASSES
-    with open('./output_classes.txt') as f:
-        text = f.readlines()
-    OUTPUT_CLASSES = [c.replace('_', ' ') for c in text[0].split()]
-
-
-def loadModelWeights():
-    global res50
-    PATH = os.path.join(ASSET_PATH, 'model_best.pth.tar')
-    model = torch.load(PATH, map_location=torch.device('cpu'))
-
-    state_dict = model['state_dict']
-
-    # create new OrderedDict that does not contain `module.`
-    new_state_dict = OrderedDict()
-    for k, v in state_dict.items():
-        name = k[7:]  # remove `module.`
-        new_state_dict[name] = v
-
-    return new_state_dict
-
-
-res50.load_state_dict(loadModelWeights())
-
-
-def getTransforms():
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225])
-    return transforms.Compose([
-        transforms.Resize((IMAGE_WIDTH, IMAGE_HEIGHT)),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        normalize,
-    ])
-
-
-def pil_loader(path):
-    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
-    with open(path, 'rb') as f:
-        img = Image.open(f)
-        return img.convert('RGB')
-
-
 def predict(imagePath=''):
-    global res50
-    res50.eval()
-    input = pil_loader(imagePath)
+
+    input = pilLoader(imagePath)
 
     output = res50(input)
 
