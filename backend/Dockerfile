@@ -9,6 +9,5 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 EXPOSE 5000 
-
-ENTRYPOINT ["/bin/bash","-c"]
-CMD ["python app/main.py"]
+# ENTRYPOINT /bin/bash
+CMD python app.py

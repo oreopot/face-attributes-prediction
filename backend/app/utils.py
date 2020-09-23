@@ -2,10 +2,13 @@
 import os
 import torch
 import torchvision.transforms as transforms
+from PIL.Image import Image
 from collections import OrderedDict
 
 BASE = os.path.join(os.getcwd(), 'app')
 ASSET_PATH = os.path.join(BASE, 'assets')
+UPLOAD_FOLDER_PATH = os.path.join(BASE, 'user-uploads')
+
 DEFAULT_WORKERS = 4
 OUTPUT_CLASSES = []
 IMAGE_WIDTH = 178

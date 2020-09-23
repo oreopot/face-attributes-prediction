@@ -6,9 +6,8 @@ networks:
 services:
   frontend:
     image: node:13.14
-    build:
-      context: ./frontend
-      dockerfile: docker/prod.Dockerfile
+    #    build:
+    #      context: ./frontend
     container_name: frontend
     working_dir: /app
     stdin_open: true
@@ -31,12 +30,14 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/src
+      - ./backend/torch-cache:/root/.cache/torch/
     ports:
       - 7777:5000
     networks:
       - zonic
     depends_on:
       - frontend
+    command: gunicorn --reload wsgi:app --log-level=debug -b 0.0.0.0:5000 --threads 2 -w 2 --timeout=500
 
   nginx:
     image: nginx:1.17.10

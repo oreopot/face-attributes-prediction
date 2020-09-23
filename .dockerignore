@@ -6,5 +6,5 @@
 .DS_Store
 
 ./backend/upload*
-backend/torch-cache
+./backend/torch-cache
 ./backend/*.log

@@ -1,9 +1,9 @@
 .vscode
 .idea
+.DS_Store
 **__pycache__**
 **node_modules**
-.DS_Store
-backend/*upload*
-backend/torch-cache
-backend/assets/
+backend/app/*uploads*
+backend/*cache*
+backend/assets/*.tar
 *.log 
