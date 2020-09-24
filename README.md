@@ -1,5 +1,7 @@
 # Face attributes prediction
 
+[![HitCount](http://hits.dwyl.com/oreopot/face-attributes-prediction.svg)](http://hits.dwyl.com/oreopot/face-attributes-prediction)
+
 ## 1) Requirements to execute on your system:
  - Docker 
 
