@@ -6,28 +6,15 @@ from flask import Flask, request
 from flask.json import jsonify
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
-from .models import resnet50
 from .utils import *
-# from models import resnet50
 # from utils import *
-from pprint import pprint
-
-
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.config.update(
-    # TESTING=True,
-    # DEBUG=True,
     UPLOAD_FOLDER=UPLOAD_FOLDER_PATH,
 )
 
 CORS(app)
-
-
-res50 = resnet50()
-res50.load_state_dict(getModelWeights())
-res50.eval()
 
 
 @app.route('/')
@@ -37,50 +24,31 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def fileUpload():
-    print(request)
-    target = os.path.join(UPLOAD_FOLDER_PATH, 'images')
-    target = UPLOAD_FOLDER_PATH
-    if not os.path.isdir(target):
-        os.makedirs(target)
+    if request.method == 'POST':
+        # file = request.files['file']
+        file = request.files.get('file')
+        if file is None or file.filename == "":
+            return jsonify({'error': 'no file'})
+        if not allowed_file(file.filename):
+            return jsonify({'error': 'format not supported'})
 
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    destination = "/".join([target, filename])
-    file.save(destination)
-    # return predict(destination)
-    response = jsonify({'data': 'success, may be 🎉🥳  :/'})
-    return response
+        target = os.path.join(UPLOAD_FOLDER_PATH, 'images')
+
+        if not os.path.isdir(target):
+            os.makedirs(target)
+        try:
+            filename = secure_filename(file.filename)
+            destination = "/".join([target, filename])
+            file.save(destination)
+        except:
+            return jsonify({'error': "Error during uploading file."})
+            # return predict(destination)
+        return jsonify({'data': predict(destination)})
 
 
 def predict(imagePath=''):
-
-    input = pilLoader(imagePath)
-
-    output = res50(input)
-
-    # op = np.zeros(40)
-    op = list(range(40))
-    features = {'present': [], 'absent': []}
-
-    for i in range(0, len(output)):
-        val = torch.max(output[i].data[0], 0).indices
-        op[i] = val
-
-        if val:
-            features["present"].append(i)
-        else:
-            features["absent"].append(i)
-
-    pil_im = Image.open(imagePath, 'r')
-    res = {
-        'image': imagePath,
-        'prediction': output,
-        'features_observed': [str(OUTPUT_CLASSES[i]) for i in features['present']],
-        'not_observed': [str(OUTPUT_CLASSES[i]) for i in features['absent']],
-    }
-    pprint(res)
-    print("=="*52)
-    return res
+    result = getPrediction(imagePath)
+    return result
 
 
 # if __name__ == '__main__':
