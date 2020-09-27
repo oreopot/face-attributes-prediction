@@ -1,21 +1,21 @@
 version: "3"
-
 networks:
   zonic:
 
 services:
   frontend:
     image: node:13.14
-    #    build:
-    #      context: ./frontend
+    build:
+      context: ./frontend/
+      dockerfile: ./docker/dev.Dockerfile
     container_name: frontend
-    working_dir: /app
     stdin_open: true
     volumes:
-      - ./frontend:/app
-      - ./frontend/node_modules
+      - ./frontend:/app/
+      - /app/node_modules
     ports:
-      - 3000:80
+      - 3000:3000
+    working_dir: /app
     networks:
       - zonic
     entrypoint: ["npm"] # command would start with this

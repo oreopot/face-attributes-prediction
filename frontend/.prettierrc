@@ -2,7 +2,7 @@
 	"tabWidth": 4,
 	"useTabs": true,
 	"htmlWhitespaceSensitivity": "strict",
-	"singleQuote": true,
+	"singleQuote": false,
 	"jsxBracketSameLine": true,
 	"jsxSingleQuote": true,
 	"printWidth": 120

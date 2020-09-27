@@ -43,7 +43,9 @@ def fileUpload():
         except:
             return jsonify({'error': "Error during uploading file."})
             # return predict(destination)
-        return jsonify({'data': predict(destination)})
+        result = predict(destination)
+        print(result['image'])
+        return jsonify({'data': result['features']})
 
 
 def predict(imagePath=''):

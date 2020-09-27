@@ -1,27 +1,33 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Grid } from '@material-ui/core';
-import ImageUpload from './ImageUpload';
-import { useSpring, animated } from 'react-spring';
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Divider } from "@material-ui/core";
+import ImageUpload from "./ImageUpload";
+// import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
+		width: "fit-page",
+		border: `1px solid ${theme.palette.divider}`,
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: theme.palette.background.paper,
+		color: theme.palette.text.secondary,
+		"& svg": {
+			margin: theme.spacing(1.5),
+		},
+		"& hr": {
+			margin: theme.spacing(0, 0.5),
+		},
 	},
 	paper: {
-		// padding: theme.spacing(2),
-		// textAlign: 'center',
-		// color: 'white',
-		// backgroundColor: '#09C',
 		height: 140,
 		width: 100,
 	},
 	cont: {
 		margin: 0,
-		width: '100%',
-		// border: '1px solid red',
+		width: "100%",
+		height: "86vh",
 		background: theme.palette.primary.alternateGradient,
-		// minHeight: '250px',
 	},
 }));
 
@@ -31,17 +37,11 @@ function Body() {
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={3} className={classes.cont}>
-				{/* {[0, 1, 2, 3].map((value) => (
-					<Grid key={value} item xs={3}>
-						<Paper variant='elevation' className={classes.paper}>
-							{value}
-						</Paper>
-					</Grid>
-				))} */}
-				<Grid item xs={6}>
+				<Grid item xs={12} md={9}>
 					<ImageUpload />
 				</Grid>
-				<Grid item xs={6}>
+				<Divider orientation='vertical' flexItem />
+				<Grid item xs={12} md={2}>
 					<svg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg' width='60%' height='60%' id='blobSvg'>
 						<path
 							id='blob'

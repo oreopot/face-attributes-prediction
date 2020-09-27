@@ -5,6 +5,6 @@
 
 .DS_Store
 
-./backend/upload*
+./backend/backend/app/user-uploads/
 ./backend/torch-cache
 ./backend/*.log
