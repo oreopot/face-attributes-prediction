@@ -1,5 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
+import { createMuiTheme } from "@material-ui/core/styles";
 
 function CustomTheme() {
 	return createMuiTheme({
@@ -11,11 +10,11 @@ function CustomTheme() {
 				alternateGradient: "linear-gradient(45deg, #37ecba 0%, #72afd3 90%)",
 			},
 			secondary: {
-				main: green[500],
+				main: "#fab1a0",
 			},
 		},
 		typography: {
-			fontFamily: 'Space Mono'
+			fontFamily: "Space Mono",
 		},
 	});
 }

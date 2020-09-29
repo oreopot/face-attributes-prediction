@@ -5,5 +5,5 @@
 **node_modules**
 backend/app/*uploads*
 backend/*cache*
-backend/assets/*.tar
+backend/app/assets/*.tar
 *.log 

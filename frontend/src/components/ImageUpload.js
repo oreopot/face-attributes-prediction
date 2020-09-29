@@ -2,8 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDropzone } from "react-dropzone";
 import Chip from "@material-ui/core/Chip";
-import FaceIcon from "@material-ui/icons/Face";
-import DoneIcon from "@material-ui/icons/Done";
+import { Face, Done } from "@material-ui/icons";
 import axios from "axios";
 
 const baseStyle = {
@@ -16,7 +15,7 @@ const baseStyle = {
 	borderRadius: 2,
 	borderColor: "#eeeeee",
 	borderStyle: "dashed",
-	width: "50%",
+	// width: "50%",
 	// backgroundColor: '#fafafa',
 	background: "transparent",
 	color: "#bdbdbd",
@@ -107,11 +106,12 @@ function ImageUpload() {
 
 			acceptedFiles.map((file) => {
 				form_data.append("file", file);
+				return 1;
 			});
 
-			const instance = axios.create({
-				baseURL: "http://localhost:7777",
-			});
+			// const instance = axios.create({
+			// 	baseURL: "http://localhost:7777",
+			// });
 			axios
 				.post(`/api/upload`, form_data, {
 					headers: {
@@ -142,7 +142,7 @@ function ImageUpload() {
 	const thumbs = files.map((file) => (
 		<div style={thumb} key={file.name}>
 			<div style={thumbInner}>
-				<img src={file.preview} style={img} />
+				<img alt='input file' src={file.preview} style={img} />
 			</div>
 		</div>
 	));
@@ -171,16 +171,14 @@ function ImageUpload() {
 				{features &&
 					features.map((feature, index) => {
 						return (
-							<p>
-								<Chip
-									key={index}
-									icon={<FaceIcon />}
-									label={feature}
-									clickable
-									color='primary'
-									deleteIcon={<DoneIcon />}
-								/>
-							</p>
+							<Chip
+								key={index}
+								icon={<Face />}
+								label={feature}
+								clickable
+								color='primary'
+								deleteIcon={<Done />}
+							/>
 						);
 					})}
 			</div>
