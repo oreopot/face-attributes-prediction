@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
-import ModernProfessional from "../assets/ModernProfessional.js";
+import { ModernProfessional } from "../assets/ModernProfessional.js";
 import ImageUpload from "./ImageUpload";
 
 // import Divider from "@material-ui/core/Divider";
@@ -21,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(0, 0.5),
 		},
 	},
-	paper: {
-		height: 140,
-		width: 100,
-	},
 	cont: {
 		margin: 0,
 		width: "100%",
@@ -42,11 +38,11 @@ function Body() {
 					<ModernProfessional />
 				</Grid>
 				<Divider orientation='vertical' flexItem />
-				<Grid item xs={4} md={4}>
+				<Grid item xs={4} md={5}>
 					<ImageUpload />
 				</Grid>
 				<Divider orientation='vertical' flexItem />
-				<Grid item xs={12} md={2}></Grid>
+				<Grid item xs={12} md={3}></Grid>
 			</Grid>
 		</div>
 	);

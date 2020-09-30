@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { Grid, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDropzone } from "react-dropzone";
-import Chip from "@material-ui/core/Chip";
 import { Face, Done } from "@material-ui/icons";
 import axios from "axios";
 
@@ -84,12 +84,17 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "10px",
 		fontWeight: "Bold",
 	},
+	cont: {
+		margin: 0,
+		width: "100%",
+		height: "84vh",
+	},
 }));
 
 function ImageUpload() {
 	const classes = useStyles();
 	const [files, setFiles] = useState([]);
-	const [features, setFeatures] = useState([]);
+	const [features, setFeatures] = useState(false);
 	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
 		accept: "image/*",
 		multiple: false,
@@ -156,33 +161,36 @@ function ImageUpload() {
 	);
 
 	return (
-		<>
-			<section className={container}>
-				<div {...getRootProps({ style, className: "dropzone" })}>
-					<input {...getInputProps()} />
-					<p style={{ color: "white", letterSpacing: "1px", minWidth: "100%", minHeight: "100%" }}>
-						{isDragActive ? "Drop it like it's hot!" : "Click me or drag a file to upload!"}
-					</p>
+		<Grid container direction='column' justify='flex-start' alignItems='center' className={classes.cont}>
+			<Grid item>
+				<section className={container}>
+					<div {...getRootProps({ style, className: "dropzone" })}>
+						<input {...getInputProps()} />
+						<p style={{ color: "white", letterSpacing: "1px", minWidth: "100%", minHeight: "100%" }}>
+							{isDragActive ? "Drop it like it's hot!" : "Click me or drag a file to upload!"}
+						</p>
+					</div>
+					<aside style={thumbsContainer}>{thumbs}</aside>
+				</section>
+			</Grid>
+			<Grid item>
+				<div className={classes.root}>
+					{features &&
+						features.map((feature, index) => {
+							return (
+								<Chip
+									key={index}
+									icon={<Face />}
+									label={feature}
+									clickable
+									color='primary'
+									deleteIcon={<Done />}
+								/>
+							);
+						})}
 				</div>
-
-				<aside style={thumbsContainer}>{thumbs}</aside>
-			</section>
-			<div className={classes.root}>
-				{features &&
-					features.map((feature, index) => {
-						return (
-							<Chip
-								key={index}
-								icon={<Face />}
-								label={feature}
-								clickable
-								color='primary'
-								deleteIcon={<Done />}
-							/>
-						);
-					})}
-			</div>
-		</>
+			</Grid>
+		</Grid>
 	);
 }
 
