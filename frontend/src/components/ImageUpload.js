@@ -95,10 +95,12 @@ function ImageUpload() {
 	const classes = useStyles();
 	const [files, setFiles] = useState([]);
 	const [features, setFeatures] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
 		accept: "image/*",
 		multiple: false,
 		onDrop: (acceptedFiles) => {
+			setLoading(true);
 			const form_data = new FormData();
 
 			setFiles(
@@ -126,6 +128,7 @@ function ImageUpload() {
 				.then((response) => {
 					console.log("Axios Success 🥳");
 					setFeatures(response.data.data.present);
+					setLoading(false);
 				})
 				.catch((err) => {
 					console.log("Axios Failed🚨");
@@ -175,7 +178,10 @@ function ImageUpload() {
 			</Grid>
 			<Grid item>
 				<div className={classes.root}>
-					{features &&
+					{loading ? (
+						<h1>Loading....</h1>
+					) : (
+						features &&
 						features.map((feature, index) => {
 							return (
 								<Chip
@@ -187,7 +193,8 @@ function ImageUpload() {
 									deleteIcon={<Done />}
 								/>
 							);
-						})}
+						})
+					)}
 				</div>
 			</Grid>
 		</Grid>

@@ -1,0 +1,55 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "mysql-server",
+      "image": "mysql:5.7",
+      "hostname": "mysql-server",
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "password"
+        },
+        {
+          "name": "MYSQL_DATABASE",
+          "value": "logindb"
+        }
+      ],
+      "memory": 500,
+      "essential": true
+    },
+    {
+      "name": "loginapp",
+      "image": "softwarebhayya/loginapp",
+      "environment": [
+        {
+          "name": "MSHOST",
+          "value": "mysql-server"
+        },
+        {
+          "name": "MSDATABASE",
+          "value": "logindb"
+        },
+        {
+          "name": "MSUSER",
+          "value": "root"
+        },
+        {
+          "name": "MSPASSWORD",
+          "value": "password"
+        },
+        {
+          "name": "WAIT_HOSTS",
+          "value": "mysql-server:3306"
+        },
+        {
+          "name": "WAIT_HOSTS_TIMEOUT",
+          "value": "90"
+        }
+      ],
+      "links": ["mysql-server"],
+      "memory": 128,
+      "essential": false
+    }
+  ]
+}
