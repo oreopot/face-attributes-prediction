@@ -7,6 +7,9 @@ before_install:
   - docker build -t $DOCKER_USERNAME/face-attr-pred-backend -f ./backend/Dockerfile ./backend
   - docker build -t $DOCKER_USERNAME/face-attr-pred-nginx -f ./reverse_proxy/Dockerfile ./reverse_proxy
 
+script:
+  - docker build -t $DOCKER_USERNAME/face-attr-pred-frontend-test -f ./frontend/docker/dev.Dockerfile ./frontend
+
 after_success:
   # Log in to the Docker CLI
   - echo "$DOCKER_LOGIN_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
