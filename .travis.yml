@@ -12,7 +12,7 @@ script:
 
 after_success:
   # Log in to the Docker CLI
-  - echo "$DOCKER_LOGIN_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_LOGIN_TOKEN" | docker login --username "$DOCKER_ID" --password-stdin
   - docker push $DOCKER_USERNAME/face-attr-pred-frontend
   - docker push $DOCKER_USERNAME/face-attr-pred-backend
   - docker push $DOCKER_USERNAME/face-attr-pred-nginx
