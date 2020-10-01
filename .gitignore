@@ -6,4 +6,5 @@
 backend/app/*uploads*
 backend/*cache*
 backend/app/assets/*.tar
+**logs**
 *.log 

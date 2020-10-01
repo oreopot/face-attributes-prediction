@@ -5,13 +5,14 @@ networks:
 services:
   frontend:
     image: node:13.14
-    build:
-      context: ./frontend/
-      dockerfile: ./docker/dev.Dockerfile
+    # build:
+    #   context: ./frontend/
+    #   dockerfile: ./docker/dev.Dockerfile
     container_name: frontend
     stdin_open: true
     volumes:
       - ./frontend:/app/
+      - ./frontend/logs:/root/.npm/_logs/
       - ./frontend/node_modules
     ports:
       - 3000:3000

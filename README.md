@@ -10,7 +10,7 @@
 <img src="https://img.shields.io/badge/docker%20-%230db7ed.svg?&style=for-the-badge&logo=docker&logoColor=white"/>
 
 ### Commands to execute it:
-- ` docker-compose -p face up && docker-compose -p face down`
+- ` docker-compose -p face up --build && docker-compose -p face down`
 - Install docker from here [![N|Solid](https://img.shields.io/badge/docker%20-%230db7ed.svg?&style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
 
 ### Technologies used:

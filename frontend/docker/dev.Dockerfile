@@ -9,5 +9,6 @@ COPY package.json .
 RUN npm install
 # Copy the contents of the project to the image
 COPY . .
+ENTRYPOINT [ "npm" ]
 # Run 'npm start' when the container starts.
-CMD ["npm", "run", "test"]
+CMD ["run test"]
