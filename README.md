@@ -2,6 +2,12 @@
 
 <img src="https://badges.pufler.dev/visits/oreopot/face-attributes-prediction">
 
+## Application Demo:
+
+![Application Demo](./application_demo.gif)
+
+
+
 ## 1) Requirements to execute on your system:
  - Docker 
 
